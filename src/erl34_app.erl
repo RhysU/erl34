@@ -5,7 +5,7 @@
 -export([stop/1]).
 
 start(_Type, _Args) ->
-	erl34_sup:start_link().
+  erl34_sup:start_link().
 
 stop(_State) ->
-	ok.
+  ok.
