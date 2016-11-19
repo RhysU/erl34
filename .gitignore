@@ -1,0 +1,5 @@
+*.d
+ebin/
+.erlang.mk/
+**/*.swo
+**/*.swp
