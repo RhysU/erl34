@@ -1,20 +1,16 @@
 -module(erl34_server).
-
-%% http://erlang.org/doc/design_principles/gen_server_concepts.html
 -behaviour(gen_server).
 
 %% API (Listing 3.2 on page 103)
 -export([ start_link/1, start_link/0, get_count/0, stop/0 ]).
 
 %% gen_server callbacks (Listing 3.2 on page 103)
--export([ init/1, handle_call/3, handle_cast/2,
-          handle_info/2, terminate/2, code_change/3 ]).
+-export([ init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3 ]).
 
 -define(SERVER, ?MODULE).
 -define(DEFAULT_PORT, 1055).
 
 %% API (Listing 3.2 on page 103)
-
 start_link() ->
     start_link(?DEFAULT_PORT).
 
@@ -30,7 +26,6 @@ stop() ->
 -record(state, {port, lsock, request_count = 0}).
 
 %% gen_server callbacks (Listing 3.4 on page 110)
-
 init([Port]) ->
     {ok, LSock} = gen_tcp:listen(Port, [{active, true}]),
     {ok, #state{port = Port, lsock = LSock}, 0}.
@@ -42,7 +37,6 @@ handle_cast(stop, State) ->
      {stop, normal, State}.
 
 %% gen_server callbacks (Listing 3.5 on page 113)
-
 handle_info({tcp, Socket, RawData}, State) ->
     do_rpc(Socket, RawData),
     RequestCount = State#state.request_count,
@@ -58,7 +52,6 @@ code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
 %% Internal (Listing 3.6 on page 114)
-
 do_rpc(Socket, RawData) ->
     try
         {M, F, A} = split_out_mfa(RawData),

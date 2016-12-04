@@ -1,19 +1,17 @@
 \documentclass[10pt,letterpaper]{article}
-\usepackage[T1]{fontenc}
-\usepackage[charter]{mathdesign}
-\usepackage{amsmath}
 \usepackage[cm]{fullpage}
 \usepackage[usenames,dvipsnames,svgnames,table]{xcolor}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{caption}
+\usepackage{hyperref}
 
-% Configure inline code listings
 \lstset{%
   basicstyle=\footnotesize\sffamily,
   columns=fixed,
   commentstyle=\color{blue},
   firstnumber=1,
-  frame=single,
+  frame=tl,
   keepspaces=true,
   numbersep=7pt,
   numbers=left,
@@ -21,17 +19,28 @@
   showstringspaces=false,
   showtabs=false,
   stepnumber=3,
-  title=\lstname%
 }
 
 \begin{document}
 
-\lstinputlisting{Makefile}
+\lstinputlisting[
+    language=erlang,
+    caption={\lstname{} adhering to \url{erlang.org/doc/design_principles/gen_server_concepts.html}}
+]{src/erl34_server.erl}
 
-\lstinputlisting{src/erl34_server.erl}
+\lstinputlisting[
+    language=erlang,
+    caption={\lstname{} adhering to \url{erlang.org/doc/design_principles/applications.html} }
+]{src/erl34_app.erl}
 
-\lstinputlisting{src/erl34_app.erl}
+\lstinputlisting[
+    language=erlang,
+    caption={\lstname{} adhering to \url{erlang.org/doc/design_principles/sup_princ.html} }
+]{src/erl34_sup.erl}
 
-\lstinputlisting{src/erl34_sup.erl}
+\lstinputlisting[
+    language=make,
+    caption={\lstname{} written for GNU Make}
+]{Makefile}
 
 \end{document}
