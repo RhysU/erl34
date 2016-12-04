@@ -12,14 +12,14 @@ SHELL = /bin/bash
 .PHONY: run-interpreter run-server run-application connect-running
 
 # Run Erlang interpreter with compiled output in search path.
-ERL = erl -pa ebin
-run-interpreter: ; $(ERL)
+REPL = erl -pa ebin
+run-interpreter: ; $(REPL)
 
 # Run RPC server per Section 3.3 on page 116
-run-server: all ; cat <(echo 'erl34_server:start_link(1055).') - | $(ERL)
+run-server: ; cat <(echo 'erl34_server:start_link(1055).') - | $(REPL)
 
 # Run application per Section 4.3 on page 129
-run-application: all ; cat <(echo 'application:start(erl34).') - | $(ERL)
+run-application: ; cat <(echo 'application:start(erl34).') - | $(REPL)
 
 # Connect to a running erl34_server on the default port
 connect-running: ; rlwrap telnet localhost 1055
