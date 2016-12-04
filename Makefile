@@ -23,3 +23,6 @@ run-application: all; cat <(echo 'application:start(erl34).') - | $(REPL)
 
 # Connect to a running erl34_server on the default port
 run-telnet: ; rlwrap telnet localhost 1055
+
+# Build any writeups if possible
+include writeups.mk
