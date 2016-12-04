@@ -1,5 +1,6 @@
 *.d
 ebin/
 .erlang.mk/
+*.pdf
 **/*.swo
 **/*.swp
