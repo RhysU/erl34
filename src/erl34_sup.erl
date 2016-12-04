@@ -1,7 +1,7 @@
 %% Listing 4.3 on page 126
-
 -module(erl34_sup).
 
+%% http://erlang.org/doc/design_principles/sup_princ.html
 -behaviour(supervisor).
 
 %% API

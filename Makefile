@@ -26,3 +26,4 @@ run-telnet: ; rlwrap telnet localhost 1055
 
 # Build any writeups if possible
 include writeups.mk
+handout.pdf: src/*.erl

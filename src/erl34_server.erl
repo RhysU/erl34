@@ -1,13 +1,6 @@
-%%%-------------------------------------------------------------------
-%%% @author Martin & Eric <erlware-dev@googlegroups.com>
-%%%  [http://www.erlware.org]
-%%% @copyright 2008-2010 Erlware
-%%% @doc RPC over TCP server:  accepts incoming TCP connections and
-%%%      allows the execution of RPC commands from that stream.
-%%% @end
-%%%--------------------------------------------------------------------
 -module(erl34_server).
 
+%% http://erlang.org/doc/design_principles/gen_server_concepts.html
 -behaviour(gen_server).
 
 %% API (Listing 3.2 on page 103)
