@@ -1,5 +1,5 @@
 %% Listing 4.2 on page 124
--module(elr34_app).
+-module(erl34_app).
 
 -behavior(application).
 
