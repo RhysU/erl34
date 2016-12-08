@@ -16,6 +16,4 @@ start_link() ->
 init([]) ->
     Server = {erl34_server, {erl34_server, start_link, []},
              permanent, 2000, worker, [erl34_server]},
-    Children = [Server],
-    RestartStrategy = {one_for_one, 0, 1},
-    {ok, {RestartStrategy, Children}}.
+    {ok, {{one_for_one, 0, 1}, [Server]}}.
