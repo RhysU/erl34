@@ -7,6 +7,9 @@
 %% gen_server callbacks (Listing 3.2 on page 103)
 -export([ init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3 ]).
 
+%% EUnit for unit testing (Section 3.4 on page 117)
+-include_lib("eunit/include/eunit.hrl").
+
 -define(SERVER, ?MODULE).
 -define(DEFAULT_PORT, 1055).
 
@@ -51,26 +54,21 @@ terminate(_Reason, _State) ->
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
-%% Internal (Listing 3.6 on page 114)
+%% Internal (Modified Listing 3.6 on page 114)
 do_rpc(Socket, RawData) ->
     try
-        {M, F, A} = split_out_mfa(RawData),
-        Result = apply(M, F, A),
-        gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Result]))
+        {M, F, A} = parse_mfa(RawData),
+        gen_tcp:send(Socket, io_lib:fwrite("~p~n", [apply(M, F, A)]))
     catch
         _Class:Err ->
             gen_tcp:send(Socket, io_lib:fwrite("~p~n", [Err]))
     end.
 
-split_out_mfa(RawData) ->
-    MFA = re:replace(RawData, "\r\n$", "", [{return, list}]),
-    {match, [M, F, A]} =
-        re:run(MFA,
-               "(.*):(.*)\s*\\((.*)\s*\\)\s*.\s*$",
-               [{capture, [1,2,3], list}, ungreedy]),
-    {list_to_atom(M), list_to_atom(F), args_to_terms(A)}.
+parse_mfa(Code) ->
+    {ok, Tokens, _} = erl_scan:string(Code),
+    {ok, [Form]} = erl_parse:parse_exprs(Tokens),
+    {call, 1, {remote, 1, {atom, 1, Module}, {atom, 1, Function}}, Args} = Form,
+    {Module, Function, lists:map(fun({_,1,Arg}) -> Arg end, Args)}.
 
-args_to_terms(RawArgs) ->
-    {ok, Toks, _Line} = erl_scan:string("[" ++ RawArgs ++ "]. ", 1),
-    {ok, Args} = erl_parse:parse_term(Toks),
-    Args.
+parse_mfa_test() ->
+    {armagideon,time,[clash,1979]} = parse_mfa("armagideon:time(clash, 1979).").
