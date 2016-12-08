@@ -7,24 +7,20 @@
 %% gen_server callbacks (Listing 3.2 on page 103)
 -export([ init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3 ]).
 
-%% EUnit for unit testing (Section 3.4 on page 117)
--include_lib("eunit/include/eunit.hrl").
+-include_lib("eunit/include/eunit.hrl").  %% See Section 3.4 on page 117
 
--define(SERVER, ?MODULE).
--define(DEFAULT_PORT, 1055).
-
-%% API (Listing 3.2 on page 103)
+%% API (Listing 3.2 on page 103 with inlined SERVER, DEFAULT_PORT)
 start_link() ->
-    start_link(?DEFAULT_PORT).
+    start_link(1055).
 
 start_link(Port) ->
-    gen_server:start_link({local, ?SERVER}, ?MODULE, [Port], []).
+    gen_server:start_link({local, ?MODULE}, ?MODULE, [Port], []).
 
 get_count() ->
-    gen_server:call(?SERVER, get_count).
+    gen_server:call(?MODULE, get_count).
 
 stop() ->
-    gen_server:cast(?SERVER, stop).
+    gen_server:cast(?MODULE, stop).
 
 -record(state, {port, lsock, request_count = 0}).
 
