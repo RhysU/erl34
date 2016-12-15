@@ -16,10 +16,10 @@ REPL = erl -pa ebin
 run-interpreter: ; $(REPL)
 
 # Run RPC server per Section 3.3 on page 116
-run-server: all tests; cat <(echo 'erl34_server:start_link(1055).') - | $(REPL)
+run-server: all; cat <(echo 'erl34_server:start_link(1055).') - | $(REPL)
 
 # Run application per Section 4.3 on page 129
-run-application: all tests; cat <(echo 'application:start(erl34).') - | $(REPL)
+run-application: all; cat <(echo 'application:start(erl34).') - | $(REPL)
 
 # Connect to a running erl34_server on the default port
 run-telnet: ; rlwrap telnet localhost 1055
